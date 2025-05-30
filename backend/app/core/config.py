@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic import BaseSettings
 from typing import Optional
 import os
 
@@ -8,16 +8,12 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     
     # Database
-    POSTGRES_SERVER: str = "localhost"
-    POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "postgres"
-    POSTGRES_DB: str = "asset_management"
-    POSTGRES_PORT: str = "5432"
-    SQLALCHEMY_DATABASE_URI: str = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_ToCA6Ux2GyMa@ep-jolly-glade-a8xgwksm-pooler.eastus2.azure.neon.tech/neondb?sslmode=require")
     
-    # Security
-    SECRET_KEY: str = "your-secret-key-here"  # Change this in production
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8  # 8 days
+    # JWT
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "V7S0n9RkiiI3Zbme7z_Nt4GX2f8QaTThf9QEYZmkk2k")
+    ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
     
     # CORS
     BACKEND_CORS_ORIGINS: list = ["*"]
@@ -26,6 +22,6 @@ class Settings(BaseSettings):
         case_sensitive = True
 
 # Create the database directory if it doesn't exist
-os.makedirs(os.path.dirname(Settings().SQLALCHEMY_DATABASE_URI.replace("sqlite:///", "")), exist_ok=True)
+os.makedirs(os.path.dirname(Settings().DATABASE_URL.replace("sqlite:///", "")), exist_ok=True)
 
 settings = Settings() 
