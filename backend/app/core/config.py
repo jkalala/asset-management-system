@@ -20,7 +20,4 @@ class Settings(BaseSettings):
     
     model_config = SettingsConfigDict(case_sensitive=True)
 
-# Create the database directory if it doesn't exist
-os.makedirs(os.path.dirname(Settings().DATABASE_URL.replace("sqlite:///", "")), exist_ok=True)
-
 settings = Settings() 
