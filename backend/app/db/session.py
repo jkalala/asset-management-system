@@ -8,13 +8,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 try:
-    engine = create_engine(
-        settings.SQLALCHEMY_DATABASE_URI,
-        pool_pre_ping=True,  # Enable connection health checks
-        pool_size=5,  # Set connection pool size
-        max_overflow=10  # Maximum number of connections that can be created beyond pool_size
-    )
-    logger.info(f"Database engine created successfully with URI: {settings.SQLALCHEMY_DATABASE_URI}")
+    engine = create_engine(settings.DATABASE_URL)
+    logger.info(f"Database engine created successfully with URI: {settings.DATABASE_URL}")
 except Exception as e:
     logger.error(f"Failed to create database engine: {str(e)}")
     raise
