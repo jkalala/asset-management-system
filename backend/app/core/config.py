@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import BaseSettings
 from typing import Optional, List
 import os
 
@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     # CORS
     BACKEND_CORS_ORIGINS: List[str] = ["*"]
     
-    model_config = SettingsConfigDict(case_sensitive=True)
+    class Config:
+        case_sensitive = True
 
 settings = Settings() 
