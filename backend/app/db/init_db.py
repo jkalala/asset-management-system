@@ -13,12 +13,7 @@ logger = logging.getLogger(__name__)
 def init_db():
     """Initialize the database with all tables."""
     try:
-        engine = create_engine(
-            settings.SQLALCHEMY_DATABASE_URI,
-            pool_pre_ping=True,
-            pool_size=5,
-            max_overflow=10
-        )
+        engine = create_engine(settings.DATABASE_URL)
         
         # Create all tables
         Base.metadata.create_all(bind=engine)
